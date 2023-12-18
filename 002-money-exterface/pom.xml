@@ -17,8 +17,14 @@
             <groupId>com.bjpowernode.money</groupId>
             <artifactId>004-money-common</artifactId>
             <version>1.0.0</version>
-
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
 

@@ -1,12 +1,14 @@
 package com.bjpowernode.money.service;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.mapper.BidInfoMapper;
 import com.bjpowernode.money.model.BidInfo;
 import com.bjpowernode.money.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +17,8 @@ import java.util.concurrent.TimeUnit;
  * 投资业务实现类
  */
 //服务暴露
-@Service(interfaceClass = BidInfoService.class,version = "1.0.0",timeout = 20000)
 @Component
+@RequestMapping(path = "/BidInfoService")
 public class BidInfoServiceImpl implements BidInfoService {
 
     @Autowired
@@ -28,6 +30,8 @@ public class BidInfoServiceImpl implements BidInfoService {
 
     // 累计成交额：总金额
     @Override
+    @GetMapping("/queryBidMoneySum")
+    @ResponseBody
     public Double queryBidMoneySum() {
         //通过工具类常量对应的值，获得展示值
         Double bidMoneySum = (Double)redisTemplate.opsForValue().get(Constants.BID_MONEY_SUM);
@@ -47,6 +51,7 @@ public class BidInfoServiceImpl implements BidInfoService {
 
     // 详情页面：根据产品编号 查询 产品信息
     @Override
+    @ResponseBody
     public List<BidInfo> queryBidInfosByLoanId(Integer loanId) {
 
         return   bidInfoMapper.selectBidInfosByLoanId( loanId);

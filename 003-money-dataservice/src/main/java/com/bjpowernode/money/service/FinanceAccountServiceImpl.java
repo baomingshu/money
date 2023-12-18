@@ -1,15 +1,14 @@
 package com.bjpowernode.money.service;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.mapper.FinanceAccountMapper;
 import com.bjpowernode.money.model.FinanceAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * 账户业务实现类
  */
-@Service(interfaceClass = FinanceAccountService.class,version = "1.0.0",timeout = 20000)
 @Component
 public class FinanceAccountServiceImpl implements FinanceAccountService {
 

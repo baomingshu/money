@@ -1,6 +1,5 @@
 package com.bjpowernode.money.service;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.mapper.LoanInfoMapper;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.utils.Constants;
@@ -8,6 +7,10 @@ import com.bjpowernode.money.utils.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +22,8 @@ import java.util.concurrent.TimeUnit;
  * author：MaxWell
  * Date：2023/8/14
  */
-@Service(interfaceClass = LoanInfoService.class,version = "1.0.0",timeout = 20000)
 @Component
+@RequestMapping(path = "/LoanInfoService")
 public class LoanInfoServiceImpl implements LoanInfoService {
     @Autowired
     LoanInfoMapper loanInfoMapper;
@@ -30,6 +33,8 @@ public class LoanInfoServiceImpl implements LoanInfoService {
 
     //动力金融网历史年化收益率
     @Override
+    @GetMapping("queryLoanInfoHistoryRateAvg")
+    @ResponseBody
     public Double queryLoanInfoHistoryRateAvg() {
         //通过工具类常量对应的值，获得展示值
         Double loanInfoHistoryRateAvg = (Double)redisTemplate.opsForValue().get(Constants.LOAN_INFO_HISTORY_RATE_AVG);
@@ -48,13 +53,21 @@ public class LoanInfoServiceImpl implements LoanInfoService {
 
     //首页：根据产品类型和数量 查询 产品信息
     @Override
-    public List<LoanInfo> queryLoanInfosByTypeAndNum(Map<String, Object> parasMap) {
-
+    @GetMapping("queryLoanInfosByTypeAndNum")
+    @ResponseBody
+    public List<LoanInfo> queryLoanInfosByTypeAndNum(Integer ptype, Integer start, Integer content) {
+        Map<String,Object> parasMap=new HashMap<>();
+        //新手宝
+        parasMap.put("ptype", ptype);
+        parasMap.put("start", start);
+        parasMap.put("content", content);
         return loanInfoMapper.selectLoanInfosByTypeAndNum(parasMap);
     }
 
     // 列表：根据类型和分页模型 查询 数据
     @Override
+    @GetMapping("queryLoanInfosByTypeAndPageModel")
+    @ResponseBody
     public List<LoanInfo> queryLoanInfosByTypeAndPageModel(Integer ptype, PageModel pageModel) {
 
         Map<String,Object> parasMap=new HashMap<>();
@@ -74,6 +87,8 @@ public class LoanInfoServiceImpl implements LoanInfoService {
 
     //列表：根据产品类型 查询 产品数量
     @Override
+    @GetMapping("queryLoanInfoCountByType")
+    @ResponseBody
     public Long queryLoanInfoCountByType(Integer ptype) {
 
         return  loanInfoMapper.selectLoanInfoCountByType( ptype);
@@ -81,6 +96,8 @@ public class LoanInfoServiceImpl implements LoanInfoService {
 
     //详情页面：根据产品编号 查询 产品信息
     @Override
+    @GetMapping("queryLoanInfoByLoanId")
+    @ResponseBody
     public LoanInfo queryLoanInfoByLoanId(Integer loanId) {
         return  loanInfoMapper.selectByPrimaryKey(loanId);
 

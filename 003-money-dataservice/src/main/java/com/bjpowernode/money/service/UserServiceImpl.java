@@ -1,6 +1,5 @@
 package com.bjpowernode.money.service;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.bjpowernode.money.mapper.FinanceAccountMapper;
 import com.bjpowernode.money.mapper.UserMapper;
 import com.bjpowernode.money.model.FinanceAccount;
@@ -10,6 +9,10 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -17,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 用户业务实现类
  */
-@Service(interfaceClass = UserService.class,version = "1.0.0",timeout = 20000)
 @Component
+@RequestMapping(path = "/UserService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -33,6 +36,8 @@ public class UserServiceImpl implements UserService {
 
     //平台用户数：总人数
     @Override
+    @GetMapping("queryUserCount")
+    @ResponseBody
     public Long queryUserCount() {
         //通过工具类常量对应的值，获得展示值
         Long userCount = (Long)redisTemplate.opsForValue().get(Constants.USER_COUNT);
@@ -53,12 +58,14 @@ public class UserServiceImpl implements UserService {
 
     //注册：根据手机号码查询用户数量
     @Override
+    @GetMapping("checkPhone")
     public int checkPhone(String phone) {
         return  userMapper.selectUserCountByPhone(phone);
     }
 
     //注册：注册
     @Override
+    @GetMapping("register")
     public User register(String phone, String loginPassword) {
 
         User user=new User();
@@ -90,6 +97,7 @@ public class UserServiceImpl implements UserService {
 
     //登录：登录
     @Override
+    @GetMapping("login")
     public User login(String phone, String loginPassword) {
        User user= userMapper.selectUserByPhoneAndPasswd(phone,loginPassword);
        if(ObjectUtils.allNotNull(user)){

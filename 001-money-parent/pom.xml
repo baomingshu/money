@@ -12,6 +12,7 @@
     <artifactId>001-money-parent</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+
     <!--
         父模块：
             1、删除src
@@ -19,11 +20,15 @@
     -->
     <name>001-money-parent</name>
     <description>Demo project for Spring Boot</description>
+
     <properties>
         <java.version>11</java.version>
         <zkclient.version>0.10</zkclient.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
         <mysql-connector-java-version>8.0.28</mysql-connector-java-version>
     </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -38,21 +43,50 @@
     </dependencies>
 
     <dependencyManagement>
-
         <dependencies>
-            <!--dubbo-->
+           <!-- &lt;!&ndash;dubbo&ndash;&gt;
             <dependency>
                 <groupId>com.alibaba.spring.boot</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
                 <version>2.0.0</version>
             </dependency>
 
-            <!--zookeeper-->
+            &lt;!&ndash;zookeeper&ndash;&gt;
             <dependency>
                 <groupId>com.101tec</groupId>
                 <artifactId>zkclient</artifactId>
                 <version>${zkclient.version}</version>
+            </dependency>-->
+
+            <!-- nacos配置中心 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>2021.0.1.0</version>
             </dependency>
+
+            <!-- nacos 注册中心-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>2021.0.1.0</version>
+            </dependency>
+
+            <!-- 解决新版cloud中nacos配置的使用 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                <version>3.1.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
 
             <!--mysql-->
             <dependency>

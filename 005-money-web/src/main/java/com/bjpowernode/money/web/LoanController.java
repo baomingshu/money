@@ -1,11 +1,12 @@
 package com.bjpowernode.money.web;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+//import com.alibaba.dubbo.config.annotation.Reference;
 import com.bjpowernode.money.model.BidInfo;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.service.BidInfoService;
 import com.bjpowernode.money.service.LoanInfoService;
 import com.bjpowernode.money.utils.PageModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
+
 public class LoanController {
-    @Reference(interfaceClass = LoanInfoService.class,version = "1.0.0",timeout = 20000)
+    @Autowired
     LoanInfoService loanInfoService;
 
-    @Reference(interfaceClass = BidInfoService.class,version = "1.0.0",timeout = 20000)
+    @Autowired
     BidInfoService bidInfoService;
 
     //课后：大杂烩，，多写几个其他数据
@@ -27,11 +29,6 @@ public class LoanController {
     public String loan(@RequestParam(name = "ptype",required = true)Integer ptype,Long cunPage,
                        HttpServletRequest request, Model model){
 
-        //产品展现
-//        Map<String,Object> parasMap=new HashMap<>();
-//        parasMap.put("ptype", ptype);
-//        parasMap.put("start", 0);
-//        parasMap.put("content", 9);
 
         PageModel pageModel=(PageModel) request.getSession().getAttribute("pageModel");
         if(pageModel==null){

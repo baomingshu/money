@@ -1,8 +1,12 @@
 package com.bjpowernode.money.service;
 
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
+
 /**
  * Redis业务接口
  */
+
 public interface RedisService {
 
     /**
