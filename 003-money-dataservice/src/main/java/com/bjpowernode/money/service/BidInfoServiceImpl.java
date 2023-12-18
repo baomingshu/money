@@ -39,7 +39,7 @@ public class BidInfoServiceImpl implements BidInfoService {
         if(bidMoneySum==null){
             //如果缓存中值不存在，访问数据库得到值
             bidMoneySum=bidInfoMapper.selectBidMoneySum();
-            //设置从数据库获得的值，有效时间42秒
+            //将从数据库获得的值设置到缓存，有效时间42秒
             redisTemplate.opsForValue().set(Constants.BID_MONEY_SUM, bidMoneySum, 42, TimeUnit.SECONDS);
         }else{
             //如果是从缓存照中查到的数据打印 --缓存命中--
@@ -56,5 +56,10 @@ public class BidInfoServiceImpl implements BidInfoService {
 
         return   bidInfoMapper.selectBidInfosByLoanId( loanId);
 
+    }
+
+    public int fact(int i){
+        int a=++i;
+        return a;
     }
 }

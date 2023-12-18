@@ -32,17 +32,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- dubbo & zookeeper-->
-
-        <!--<dependency>
-            <groupId>com.alibaba.spring.boot</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.101tec</groupId>
-            <artifactId>zkclient</artifactId>
-        </dependency>-->
         <!-- nacos配置中心 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

@@ -38,7 +38,7 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     public Double queryLoanInfoHistoryRateAvg() {
         //通过工具类常量对应的值，获得展示值
         Double loanInfoHistoryRateAvg = (Double)redisTemplate.opsForValue().get(Constants.LOAN_INFO_HISTORY_RATE_AVG);
-        //课后：处理好缓存穿透现象！，但是我忘了，而且没空写啊，好难啊
+
         if(loanInfoHistoryRateAvg==null){
             //如果缓存中值不存在，访问数据库得到值
             loanInfoHistoryRateAvg=loanInfoMapper.selectLoanInfoHistoryRateAvg();
