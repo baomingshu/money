@@ -58,7 +58,7 @@ public interface LoanInfoService {
      * @return
      */
     @GetMapping("queryLoanInfoByLoanId")
-    LoanInfo queryLoanInfoByLoanId(Integer loanId);
+    LoanInfo queryLoanInfoByLoanId(@RequestParam Integer loanId);
 
 
 }
