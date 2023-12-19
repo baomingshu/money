@@ -1,6 +1,7 @@
 package com.bjpowernode.money.web;
 
 //import com.alibaba.dubbo.config.annotation.Reference;
+
 import com.bjpowernode.money.model.BidInfo;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.service.BidInfoService;
@@ -11,12 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Controller
 
+@Controller
 public class LoanController {
     @Autowired
     LoanInfoService loanInfoService;
@@ -28,7 +28,6 @@ public class LoanController {
     @GetMapping("/loan/loan")
     public String loan(@RequestParam(name = "ptype",required = true)Integer ptype,Long cunPage,
                        HttpServletRequest request, Model model){
-
 
         PageModel pageModel=(PageModel) request.getSession().getAttribute("pageModel");
         if(pageModel==null){
@@ -53,8 +52,6 @@ public class LoanController {
         //设置当前页
         pageModel.setCunPage(cunPage);
 
-
-
         //List<LoanInfo> loanInfoList = loanInfoService.queryLoanInfosByTypeAndNum(parasMap);
         List<LoanInfo> loanInfoList = loanInfoService.queryLoanInfosByTypeAndPageModel(ptype,pageModel);
         model.addAttribute("loanInfoList", loanInfoList);
@@ -78,7 +75,6 @@ public class LoanController {
         //投资记录
         List<BidInfo> bidInfoList=bidInfoService.queryBidInfosByLoanId(loanId);
         model.addAttribute("bidInfoList", bidInfoList);
-
 
         return "loanInfo.html";
     }

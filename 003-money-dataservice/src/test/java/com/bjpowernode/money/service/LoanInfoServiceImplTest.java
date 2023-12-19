@@ -1,6 +1,5 @@
 package com.bjpowernode.money.service;
 
-import com.bjpowernode.money.mapper.BidInfoMapper;
 import com.bjpowernode.money.mapper.LoanInfoMapper;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.utils.Constants;
@@ -11,12 +10,8 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.ui.Model;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -70,6 +65,6 @@ public class LoanInfoServiceImplTest {
     public void testQueryLoanInfoByLoanId(){
         LoanInfo loanInfo=mock(LoanInfo.class);
         when(loanInfoMapper.selectByPrimaryKey(4)).thenReturn(loanInfo);
-        assertEquals(loanInfo, loanInfoServiceImpl.queryLoanInfoByLoanId(4));
+        assertEquals(loanInfo,loanInfoServiceImpl.queryLoanInfoByLoanId(4));
     }
 }

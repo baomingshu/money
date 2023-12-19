@@ -17,10 +17,12 @@
         <java.version>11</java.version>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -56,7 +58,6 @@
             <version>2.2.1.RELEASE</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.bjpowernode.money</groupId>
             <artifactId>002-money-exterface</artifactId>
@@ -69,15 +70,14 @@
             <version>1.0.0</version>
         </dependency>
 
-
         <!--热部署插件-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-    </dependencies>
 
+    </dependencies>
     <build>
         <plugins>
             <plugin>
