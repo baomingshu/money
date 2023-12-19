@@ -2,20 +2,13 @@ package com.bjpowernode.money.service;
 
 import com.bjpowernode.money.mapper.BidInfoMapper;
 import com.bjpowernode.money.utils.Constants;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.test.context.junit4.SpringRunner;
-
-
-import javax.annotation.security.RunAs;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +22,7 @@ import static org.mockito.Mockito.*;
  */
 //spring-boot-starter-test默认集成了junit5依赖，Mockito: Java Mock框架依赖，AssertJ流式断言等
 // 在junit4的时候使用@Runwith,在junit5的时候使用@SpringBootTest，作用是加载web Application Context并提供Mock Web Environment
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class BidInfoServiceImplTest {
     //把要测试的类通过mock注入
     @InjectMocks

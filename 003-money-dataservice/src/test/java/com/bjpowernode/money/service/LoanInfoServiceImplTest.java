@@ -4,10 +4,11 @@ import com.bjpowernode.money.mapper.LoanInfoMapper;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.utils.Constants;
 import com.bjpowernode.money.utils.PageModel;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class LoanInfoServiceImplTest {
     //把要测试的类通过mock注入
     @InjectMocks
