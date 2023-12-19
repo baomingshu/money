@@ -41,6 +41,7 @@ public class PageModel implements Serializable {
     }
 
     public Long getTotalPage() {
+        //pageSize=10;一页展示几条
         return totalCount%pageSize>0?totalCount/pageSize+1:totalCount/pageSize;
     }
 
@@ -68,5 +69,16 @@ public class PageModel implements Serializable {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    @Override
+    public String toString() {
+        return "PageModel{" +
+                "totalCount=" + totalCount +
+                ", totalPage=" + totalPage +
+                ", cunPage=" + cunPage +
+                ", firstPage=" + firstPage +
+                ", pageSize=" + pageSize +
+                '}';
     }
 }

@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @RequestMapping(path = "/LoanInfoService")
-public class LoanInfoServiceImpl implements LoanInfoService {
+public class LoanInfoServiceImpl {
     @Autowired
     LoanInfoMapper loanInfoMapper;
 
@@ -32,32 +32,35 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     RedisTemplate redisTemplate;
 
     //动力金融网历史年化收益率
-    @Override
     @GetMapping("queryLoanInfoHistoryRateAvg")
     @ResponseBody
     public Double queryLoanInfoHistoryRateAvg() {
-        //通过工具类常量对应的值，获得展示值
+        //通过工具类常量对应的值，查询缓存获得展示值
         Double loanInfoHistoryRateAvg = (Double)redisTemplate.opsForValue().get(Constants.LOAN_INFO_HISTORY_RATE_AVG);
-
-        if(loanInfoHistoryRateAvg==null){
+        //如果存在直接返回
+        if(loanInfoHistoryRateAvg!=null){
+            return loanInfoHistoryRateAvg;
+        }
+        if(loanInfoHistoryRateAvg==null) {
             //如果缓存中值不存在，访问数据库得到值
-            loanInfoHistoryRateAvg=loanInfoMapper.selectLoanInfoHistoryRateAvg();
-            //设置从数据库获得的值，有效时间20秒
-            redisTemplate.opsForValue().set(Constants.LOAN_INFO_HISTORY_RATE_AVG, loanInfoHistoryRateAvg, 20, TimeUnit.SECONDS);
-        }else{
-            //如果是从缓存照中查到的数据打印 --缓存命中--
-            System.out.println("---缓存命中---");
+            loanInfoHistoryRateAvg = loanInfoMapper.selectLoanInfoHistoryRateAvg();
+
+            if(loanInfoHistoryRateAvg!=null){
+                //数据库中值存在，将从数据库中查询出的loanInfoHistoryRateAvg值存入缓存
+                redisTemplate.opsForValue().set(Constants.LOAN_INFO_HISTORY_RATE_AVG, loanInfoHistoryRateAvg, 20, TimeUnit.SECONDS);
+            }else{
+                //数据库中值不存在，存入缓存里一个假的值
+                redisTemplate.opsForValue().set(Constants.LOAN_INFO_HISTORY_RATE_AVG, null , 20, TimeUnit.SECONDS);
+            }
         }
         return loanInfoHistoryRateAvg;
     }
 
     //首页：根据产品类型和数量 查询 产品信息
-    @Override
     @GetMapping("queryLoanInfosByTypeAndNum")
     @ResponseBody
     public List<LoanInfo> queryLoanInfosByTypeAndNum(Integer ptype, Integer start, Integer content) {
-        Map<String,Object> parasMap=new HashMap<>();
-        //新手宝
+        Map<String, Object> parasMap = new HashMap<String, Object>();
         parasMap.put("ptype", ptype);
         parasMap.put("start", start);
         parasMap.put("content", content);
@@ -65,7 +68,6 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     }
 
     // 列表：根据类型和分页模型 查询 数据
-    @Override
     @GetMapping("queryLoanInfosByTypeAndPageModel")
     @ResponseBody
     public List<LoanInfo> queryLoanInfosByTypeAndPageModel(Integer ptype, PageModel pageModel) {
@@ -86,7 +88,6 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     }
 
     //列表：根据产品类型 查询 产品数量
-    @Override
     @GetMapping("queryLoanInfoCountByType")
     @ResponseBody
     public Long queryLoanInfoCountByType(Integer ptype) {
@@ -95,7 +96,6 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     }
 
     //详情页面：根据产品编号 查询 产品信息
-    @Override
     @GetMapping("queryLoanInfoByLoanId")
     @ResponseBody
     public LoanInfo queryLoanInfoByLoanId(Integer loanId) {

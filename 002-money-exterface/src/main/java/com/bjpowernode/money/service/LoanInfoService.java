@@ -32,22 +32,17 @@ public interface LoanInfoService {
 
     /**
      * 首页：根据产品类型和数量 查询 产品信息
-     * @param ptype：类型和数量
-     * @param start：类型和数量
-     * @param content：类型和数量
      * @return 产品集合
      */
     @GetMapping("queryLoanInfosByTypeAndNum")
-    List<LoanInfo> queryLoanInfosByTypeAndNum(@RequestParam("ptype") Integer ptype, @RequestParam("start")Integer start,@RequestParam("content") Integer content );
+    List<LoanInfo> queryLoanInfosByTypeAndNum(@SpringQueryMap Map<String, Object> parasMap);
 
     /**
      * 列表：根据类型和分页模型 查询 数据
-     * @param ptype
-     * @param pageModel
      * @return
      */
     @GetMapping("queryLoanInfosByTypeAndPageModel")
-    List<LoanInfo> queryLoanInfosByTypeAndPageModel(@RequestParam("ptype")Integer ptype, @RequestParam("pageModel")PageModel pageModel);
+    List<LoanInfo> queryLoanInfosByTypeAndPageModel(@RequestParam("ptype") Integer ptype, @SpringQueryMap PageModel pageModel);
 
     /**
      * 列表：根据产品类型 查询 产品数量

@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -45,7 +46,7 @@ public class LoanInfoServiceImplTest {
     public void testQueryLoanInfosByTypeAndNum(){
         List list = mock(List.class);
         when(loanInfoMapper.selectLoanInfosByTypeAndNum(any())).thenReturn(list);
-        assertEquals(list, loanInfoServiceImpl.queryLoanInfosByTypeAndNum(1, 2, 3));
+        assertEquals(list, loanInfoServiceImpl.queryLoanInfosByTypeAndNum(0,1,4));
     }
     @Test
     public void testQueryLoanInfosByTypeAndPageModel(){

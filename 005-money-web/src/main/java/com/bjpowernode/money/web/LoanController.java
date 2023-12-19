@@ -13,7 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -38,7 +41,7 @@ public class LoanController {
         //课后：在服务器启动的时候，缓存中存放部分产品信息，超出分页边界，从缓存中随机抽取若干信息，用于展现！
 
         if(cunPage==null||cunPage<pageModel.getFirstPage()){
-            //Integer.longValue() 方法将此 Integer 的值转为long类型返回
+            //Integer.longValue() 方法将此 Integer 的值转为long类型返回，第一次把当前页设置为第一页
             cunPage=pageModel.getFirstPage().longValue();
         }
 
@@ -47,6 +50,7 @@ public class LoanController {
         pageModel.setTotalCount(totalCount);
 
         if(cunPage>pageModel.getTotalPage()){
+            //cunPage是当前页，totalCount是总条数。第二次如果前端传回的当前页大于总页数，当前页不变。
             cunPage=pageModel.getTotalPage();
         }
         //设置当前页

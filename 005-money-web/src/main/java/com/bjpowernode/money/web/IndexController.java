@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+//首页展示
 @Controller
 public class IndexController {
     @Autowired
@@ -41,18 +41,29 @@ public class IndexController {
         Double bidMoneySum=bidInfoService.queryBidMoneySum();
         model.addAttribute(Constants.BID_MONEY_SUM, bidMoneySum);
 
+        Map<String,Object> parasMap=new HashMap<>();
+        //新手宝
+        parasMap.put("ptype", 0);
+        parasMap.put("start", 0);
+        parasMap.put("content", 1);
+
         //根据产品类型和数量 查询 产品信息
-        List<LoanInfo> loanInfoList_X= loanInfoService.queryLoanInfosByTypeAndNum(0, 0, 1);
+        List<LoanInfo> loanInfoList_X= loanInfoService.queryLoanInfosByTypeAndNum(parasMap);
         model.addAttribute("loanInfoList_X", loanInfoList_X);
 
         //优选标
-        List<LoanInfo> loanInfoList_Y= loanInfoService.queryLoanInfosByTypeAndNum(1, 0, 4);
+        parasMap.put("ptype", 1);
+        parasMap.put("start", 0);
+        parasMap.put("content", 4);
+        List<LoanInfo> loanInfoList_Y= loanInfoService.queryLoanInfosByTypeAndNum(parasMap);
         model.addAttribute("loanInfoList_Y", loanInfoList_Y);
 
         //散标
-        List<LoanInfo> loanInfoList_S= loanInfoService.queryLoanInfosByTypeAndNum(2,0,8);
+        parasMap.put("ptype", 2);
+        parasMap.put("start", 0);
+        parasMap.put("content", 8);
+        List<LoanInfo> loanInfoList_S= loanInfoService.queryLoanInfosByTypeAndNum(parasMap);
         model.addAttribute("loanInfoList_S", loanInfoList_S);
-
 
         return "index";
     }
