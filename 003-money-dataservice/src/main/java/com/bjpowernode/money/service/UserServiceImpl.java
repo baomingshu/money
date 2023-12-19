@@ -39,19 +39,25 @@ public class UserServiceImpl implements UserService {
     @GetMapping("queryUserCount")
     @ResponseBody
     public Long queryUserCount() {
+
         //通过工具类常量对应的值，获得展示值
         Long userCount = (Long)redisTemplate.opsForValue().get(Constants.USER_COUNT);
-        //课后：处理好缓存穿透现象！
-        if(userCount==null){
-            //如果缓存中值不存在，访问数据库得到值
-            userCount=userMapper.selectUserCount();
-            //设置从数据库获得的值，有效时间33秒
-            redisTemplate.opsForValue().set(Constants.USER_COUNT, userCount, 33, TimeUnit.SECONDS);
-        }else{
-            //如果是从缓存照中查到的数据打印 --缓存命中--
-            System.out.println("---缓存命中---");
+        //如果存在直接返回值
+        if(userCount!=null) {
+            return userCount;
         }
 
+        if(userCount==null) {
+            //如果缓存中值不存在，访问数据库得到值
+            userCount = userMapper.selectUserCount();
+            if (userCount != null) {
+                //得到值后设置从数据库获得的值，有效时间33秒
+                redisTemplate.opsForValue().set(Constants.USER_COUNT, userCount, 33, TimeUnit.SECONDS);
+            } else {
+                //数据库中值不存在，存入缓存里一个假的值
+                redisTemplate.opsForValue().set(Constants.USER_COUNT, null, 33, TimeUnit.SECONDS);
+            }
+        }
 
         return userCount;
     }

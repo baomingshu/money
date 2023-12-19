@@ -34,18 +34,20 @@ public class BidInfoServiceImpl implements BidInfoService {
     @ResponseBody
     public Double queryBidMoneySum() {
         //通过工具类常量对应的值，获得展示值
-        Double bidMoneySum = (Double)redisTemplate.opsForValue().get(Constants.BID_MONEY_SUM);
-        //课后：处理好缓存穿透现象！
-        if(bidMoneySum==null){
-            //如果缓存中值不存在，访问数据库得到值
-            bidMoneySum=bidInfoMapper.selectBidMoneySum();
-            //将从数据库获得的值设置到缓存，有效时间42秒
-            redisTemplate.opsForValue().set(Constants.BID_MONEY_SUM, bidMoneySum, 42, TimeUnit.SECONDS);
-        }else{
-            //如果是从缓存照中查到的数据打印 --缓存命中--
-            System.out.println("---缓存命中---");
+        Double bidMoneySum = (Double) redisTemplate.opsForValue().get(Constants.BID_MONEY_SUM);
+        if (bidMoneySum != null) {
+            return bidMoneySum;
         }
-
+        if (bidMoneySum == null) {
+            //如果缓存中值不存在，访问数据库得到值
+            bidMoneySum = bidInfoMapper.selectBidMoneySum();
+            if (bidMoneySum != null) {
+                //将从数据库获得的值设置到缓存，有效时间42秒
+                redisTemplate.opsForValue().set(Constants.BID_MONEY_SUM, bidMoneySum, 42, TimeUnit.SECONDS);
+            } else {
+                redisTemplate.opsForValue().set(Constants.BID_MONEY_SUM, null, 42, TimeUnit.SECONDS);
+            }
+        }
         return bidMoneySum;
     }
 
@@ -54,12 +56,12 @@ public class BidInfoServiceImpl implements BidInfoService {
     @ResponseBody
     public List<BidInfo> queryBidInfosByLoanId(Integer loanId) {
 
-        return   bidInfoMapper.selectBidInfosByLoanId( loanId);
+        return bidInfoMapper.selectBidInfosByLoanId(loanId);
 
     }
 
-    public int fact(int i){
-        int a=++i;
+    public int fact(int i) {
+        int a = ++i;
         return a;
     }
 }
