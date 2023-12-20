@@ -134,7 +134,7 @@
 
   <!--注册：根据手机号码查询用户数量-->
   <select id="selectUserCountByPhone" resultType="int">
-       select count(1456) from u_user where phone=#{phonexxx}
+       select count(1) from u_user where phone=#{phonexxx}
   </select>
 
   <!--登录：登录-->

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(User record);
 
     int insertSelective(User record);
 
@@ -23,7 +22,10 @@ public interface UserMapper {
     //注册：根据手机号码查询用户数量
     int selectUserCountByPhone(String phone);
 
-    //登录：登录
+    //注册：将手机号和密码存入数据库
+    int insert(User record);
+
+    //登录
     User selectUserByPhoneAndPasswd(String phone, String loginPassword);
 
 }

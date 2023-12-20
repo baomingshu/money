@@ -20,6 +20,16 @@ public class User implements Serializable {
 
     private String headerImage;
 
+    public String getMessageCode() {
+        return messageCode;
+    }
+
+    public void setMessageCode(String messageCode) {
+        this.messageCode = messageCode;
+    }
+
+    private String messageCode;
+
     public Integer getId() {
         return id;
     }

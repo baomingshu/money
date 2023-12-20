@@ -1,7 +1,5 @@
 package com.bjpowernode.money.web;
 
-//import com.alibaba.dubbo.config.annotation.Reference;
-
 import com.bjpowernode.money.model.BidInfo;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.service.BidInfoService;
@@ -13,10 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
 
 
 @Controller

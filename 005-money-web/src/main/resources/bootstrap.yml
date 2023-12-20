@@ -1,4 +1,4 @@
-spring:
+ spring:
   cloud:
     nacos:
       # nacos用户名
