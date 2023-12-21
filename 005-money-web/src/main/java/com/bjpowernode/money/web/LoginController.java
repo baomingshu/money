@@ -53,24 +53,31 @@ public class LoginController {
             //再次查询是否存入成功
             Integer Num2 = loginService.queryRegister(phone);
             //存入成功向前端发送信息
-            return Result.success("注册成功，前往登录页面");
+            return Result.success("注册成功，请前往登录页面");
         }
 
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(name = "phone", required = true) String phone,
+    public Object login(@RequestParam(name = "phone", required = true) String phone,
                         @RequestParam(name = "pwd") String pwd, HttpServletRequest request, Model model) {
+        //根据参数phone查询数据库，selectUserCountByPhone方法//如果查询不到信息，返回账号不存在，
+        Integer num =loginService.queryRegister(phone);
+        if(num ==0){
+            return Result.error("用户不存在，重新登录");
+        } else if(num>0){
+            //如果phone能查到数据，再根据参数phone和pwd查询数据库
+            User user = loginService.loginByaccountAndPwd(phone, pwd);
+            if (user==null){
+                //查询失败，返回密码错误
+                return Result.error("密码 错误，重新登录");
+            }else{
+                //如果查询到信息，登录成功
+                return Result.success("登录成功");
+                //将登录信息存到redis，后续可以前往redis查询。
+                //登录成功后，还应该做什么？
+            }
 
-        User user = loginService.loginByaccountAndPwd(phone, pwd);
-        //如果user为空，登录失败
-        if (user == null) {
-            model.addAttribute("msg", "登录失败");
-            model.addAttribute("code", 0);
-        } else {
-            //如果user非空，登录成功
-            model.addAttribute("msg", "登录成功");
-            model.addAttribute("code", 1);
         }
         return "index";
     }
