@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.money.mapper.EvaluateMapper">
+    <resultMap id="BaseResultMap" type="com.bjpowernode.money.model.Evaluate">
+    <id column="eid" jdbcType="INTEGER" property="eid" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="star" jdbcType="INTEGER" property="star" />
+    <result column="eval" jdbcType="VARCHAR" property="evaluate" />
+</resultMap>
+
+    <resultMap id="EvaluateResultMap" type="com.bjpowernode.money.model.Evaluate">
+        <id column="eid" jdbcType="INTEGER" property="eid" />
+        <result column="pid" jdbcType="INTEGER" property="pid" />
+        <result column="eval" jdbcType="VARCHAR" property="evaluate" />
+    </resultMap>
+
+    <!--根据产品id查询对应产品总点赞数量-->
+    <select id="selectStarsById" parameterType="java.lang.Integer" resultType="int">
+        select
+        count(1)
+        from b_pro_evaluate
+        where pid = #{pid,jdbcType=INTEGER};
+    </select>
+
+    <!--根据产品id查询平均点赞-->
+    <select id="selectStarsAvgById" parameterType="java.lang.Integer" resultType="double">
+    SELECT avg(star) FROM b_pro_evaluate where pid =#{pid,jdbcType=INTEGER};
+  </select>
+
+
+    <!--根据产品id查询该产品的所有评论信息-->
+    <select id="selectEvaluateByid" parameterType="java.lang.Integer" resultMap="EvaluateResultMap">
+       SELECT eid,pid ,eval FROM b_pro_evaluate where pid =#{pid,jdbcType=INTEGER};
+  </select>
+
+
+
+</mapper>

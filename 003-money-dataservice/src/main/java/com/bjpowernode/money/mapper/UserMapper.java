@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
-
     int insertSelective(User record);
 
     User selectByPrimaryKey(Integer id);

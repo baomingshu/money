@@ -100,6 +100,7 @@ public class LoanInfoServiceImpl {
     @ResponseBody
     public LoanInfo queryLoanInfoByLoanId(Integer loanId) {
         return  loanInfoMapper.selectByPrimaryKey(loanId);
-
     }
+
+
 }

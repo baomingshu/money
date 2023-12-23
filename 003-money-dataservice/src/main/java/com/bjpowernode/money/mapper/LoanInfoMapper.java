@@ -28,4 +28,7 @@ public interface LoanInfoMapper {
 
     //列表：根据产品类型 查询 产品数量
     Long selectLoanInfoCountByType(Integer ptype);
+
+    //根据评价id查询该产品的信息
+    LoanInfo selectInfoByEid(Integer eid);
 }

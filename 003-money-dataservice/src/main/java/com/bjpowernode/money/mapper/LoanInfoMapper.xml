@@ -18,6 +18,13 @@
     <result column="product_desc" jdbcType="VARCHAR" property="productDesc" />
     <result column="version" jdbcType="INTEGER" property="version" />
   </resultMap>
+
+  <resultMap id="selectInfoByEid" type="com.bjpowernode.money.model.LoanInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_type" jdbcType="INTEGER" property="productType" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, product_name, rate, cycle, release_time, product_type, product_no, product_money, 
     left_product_money, bid_min_limit, bid_max_limit, product_status, product_full_time, 
@@ -225,5 +232,12 @@
   <!--列表：根据产品类型 查询 产品数量-->
   <select id="selectLoanInfoCountByType" resultType="long">
        select count(111) from b_loan_info where product_type=#{ptype}
+  </select>
+
+  <!--//根据评论id查询该产品的信息-->
+  <select id="selectInfoByEid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT id,product_name,product_type
+    FROM b_loan_info
+    where b_loan_info.id=(SELECT eid from b_pro_evaluate where eid=#{eid,jdbcType=INTEGER})
   </select>
 </mapper>
