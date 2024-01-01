@@ -28,4 +28,12 @@ public interface EvaluateService {
     //根据评价id查询该产品的信息
     @GetMapping("/queryInfoByEid")
     LoanInfo queryInfoByEid(@RequestParam Integer eid);
+
+    //插入评论和点赞
+    @GetMapping("/insertEvaluate")
+    Integer insertEvaluate(@RequestParam String eval);
+
+    //根据评价eid查询评价是否存在
+    @GetMapping("/queryEvalByEid")
+    Integer queryEvalByEid(Integer eid);
 }

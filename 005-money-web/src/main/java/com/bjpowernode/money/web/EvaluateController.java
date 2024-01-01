@@ -3,12 +3,16 @@ package com.bjpowernode.money.web;
 import com.bjpowernode.money.model.Evaluate;
 import com.bjpowernode.money.model.LoanInfo;
 import com.bjpowernode.money.service.EvaluateService;
+import com.bjpowernode.money.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class EvaluateController {
@@ -17,7 +21,7 @@ public class EvaluateController {
     @Autowired
     EvaluateService evaluateService;
 
-    @GetMapping("/evaluate")
+    @PostMapping("/evaluate")
     public String evaluate(Model model, Integer pid, Integer eid){
         //总星数
         int starsById = evaluateService.queryStarsById(pid);
@@ -29,11 +33,24 @@ public class EvaluateController {
         //根据产品id查询该产品的所有评论
         List<Evaluate> list = evaluateService.queryEvaluateById(pid);
         model.addAttribute("EVA_LIST",list);
+
+
         //根据评价id查询该产品的信息
         LoanInfo loanInfo = evaluateService.queryInfoByEid(eid);
         model.addAttribute("LOAN_INFO_EVA",loanInfo);
 
         return "evaluate";
+    }
+
+    @PostMapping("/evaluate/write")
+    public Map<String,Object> evaluateWrite(@RequestBody String eval){
+
+       Integer num= evaluateService.insertEvaluate(eval);
+        if (num>0){
+            return Result.success("评论成功");
+        }
+        return Result.error("评论失败");
+
     }
 
 }

@@ -4,17 +4,14 @@ import com.bjpowernode.money.mapper.EvaluateMapper;
 import com.bjpowernode.money.mapper.LoanInfoMapper;
 import com.bjpowernode.money.model.Evaluate;
 import com.bjpowernode.money.model.LoanInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.RegEx;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -51,11 +48,52 @@ public class EvaluateServiceImpl {
         return list;
     };
 
-    //根据评价id查询该产品的信息
-    @GetMapping("/queryInfoByEid")
+    //根据评价eid查询该产品的信息
+    @PostMapping("/queryInfoByEid")
     @ResponseBody
-    public LoanInfo queryInfoByEid(Integer eid){
+    public String queryInfoByEid(Integer eid){
+
         LoanInfo loanInfo= loanInfoMapper.selectInfoByEid(eid);
-        return loanInfo;
+      //  return loanInfo;
+
+        // 创建ObjectMapper对象
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString="";
+        try {
+            // 将对象转换为JSON字符串
+             jsonString = objectMapper.writeValueAsString(loanInfo);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+        }
+        return jsonString;
     };
+    //插入评论和点赞
+    @PostMapping("/insertEvaluate")
+    @ResponseBody
+    public Integer insertEvaluate(@RequestBody String eval){
+
+        //接收json字符串，获得eid等值，插入数据库
+        ObjectMapper objectMapper = new ObjectMapper();
+        //创建空对象
+        Evaluate eva =null;
+        try {
+            //解析为转为对象，
+            eva = objectMapper.readValue(eval, Evaluate.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+       Integer num= evaluateMapper.insertEval(eva);
+        //获得自增主键值
+        int i=eva.getEid();
+        //插入数据库后调用queryEvalByEid，根据评价eid查询评价是否存在
+
+        //如果存在返回 num
+        return num;
+    }
+
+
+
 }

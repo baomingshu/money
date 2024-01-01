@@ -1,11 +1,7 @@
 package com.bjpowernode.money.mapper;
 
 import com.bjpowernode.money.model.Evaluate;
-import com.bjpowernode.money.model.LoanInfo;
-
-
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -18,5 +14,9 @@ public interface EvaluateMapper {
 
     //根据产品id查询该产品的所有评论
     List<Evaluate> selectEvaluateByid(Integer pid);
+
+    //插入评论和点赞
+    int insertEval(Evaluate eval);
+
 
 }
